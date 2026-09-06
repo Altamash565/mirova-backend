@@ -1,23 +1,21 @@
-import { Module } from "@nestjs/common";
-import { Pool } from 'pg'
-import {drizzle} from 'drizzle-orm/node-postgres';
+import { Module } from '@nestjs/common';
+// import { Pool } from 'pg';
+// import { drizzle } from 'drizzle-orm/node-postgres';
 
 import { DATABASE } from './database.constants';
+import { DatabaseService } from './database.service';
 
 @Module({
-    providers: [
-        {
-            provide: DATABASE,
-            useFactory: () => {
-                const pool = new Pool({
-                    connectionString: process.env.DATABASE_URL,
-                });
-
-                return drizzle(pool);
-            },
-        },
-    ],
-    exports: [DATABASE]
+  providers: [
+    DatabaseService,
+    {
+      provide: DATABASE,
+      useFactory: (databaseService: DatabaseService) => {
+        return databaseService.db;
+      },
+      inject: [DatabaseService],
+    },
+  ],
+  exports: [DATABASE],
 })
-
 export class DatabaseModule {}
