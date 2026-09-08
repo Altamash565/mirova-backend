@@ -5,6 +5,7 @@ import { drizzle } from "drizzle-orm/node-postgres";
 @Injectable() 
 export class DatabaseService {
     private readonly pool: Pool;
+    
     public readonly db;
 
     constructor() {

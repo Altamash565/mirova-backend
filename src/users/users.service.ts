@@ -1,8 +1,8 @@
 import { BadRequestException, Inject, NotFoundException, Injectable } from '@nestjs/common';
 import { eq } from 'drizzle-orm';
 
-import {DATABASE} from '../database/database.constants'
-import {users} from '../database/schema'
+import { DATABASE } from '../database/database.constants'
+import { users } from '../database/schema'
 
 @Injectable()
 export class UsersService {
@@ -29,7 +29,7 @@ export class UsersService {
         })
         .returning();
 
-        return users;
+        return user;
     }
 
     async findAll() {
