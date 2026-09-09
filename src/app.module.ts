@@ -6,12 +6,13 @@ import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { JwtService } from './auth/jwt/jwt.service';
 
 
 
 @Module({
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, JwtService],
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
