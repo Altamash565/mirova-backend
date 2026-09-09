@@ -15,6 +15,13 @@
       "when": 1788631562002,
       "tag": "0001_yielding_malcolm_colcord",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1788885024305,
+      "tag": "0002_curvy_titania",
+      "breakpoints": true
     }
   ]
 }
