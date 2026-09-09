@@ -2,6 +2,12 @@ import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/commo
 
 import { UsersService } from './users.service';
 
+import { UseGuards } from '@nestjs/common';
+
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+
+import { CurrentUser } from '../auth/decorators/current-user.decorator';
+
 
 
 @Controller('users')
@@ -17,6 +23,15 @@ export class UsersController {
         },
     ) {
         return this.usersService.create(body.name, body.email)
+    }
+
+    @Get('me')
+    @UseGuards(JwtAuthGuard) 
+    getMe(@CurrentUser() user: { id: string}) {
+        return {
+            message: 'You are authenticated',
+            user,
+        };
     }
 
     @Get()

@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException, Inject } from '@nestjs/common';
+import { Injectable, BadRequestException, Inject, UnauthorizedException } from '@nestjs/common';
 import bcrypt from 'bcrypt';
 import {eq} from 'drizzle-orm'
 
@@ -119,6 +119,53 @@ export class AuthService {
             accessToken,
             refreshToken
         };
-     }
+    }
+
+    async refresh(refreshToken: string) {
+        const payload = this.JwtService.verifyRefreshToken(
+            refreshToken,
+        );
+
+        if (
+            typeof payload !== 'object' || !('sub' in payload) || typeof payload.sub !== 'string'
+        ) {
+            throw new UnauthorizedException(
+                'Invalid refresh token',
+            );
+        }
+
+        const userId = payload.sub;
+
+        const [user] = await this.db
+        .select()
+        .from(users)
+        .where(eq(users.id, userId));
+
+        if(!user) {
+            throw new UnauthorizedException(
+
+                'User not found',
+            );
+        }
+
+        const newAccessToken = this.JwtService.generateAccessToken(
+            user.id,
+        );
+
+        const newRefreshToken = this.JwtService.generateRefreshToken(
+            user.id,
+        );
+
+        return {
+            accessToken: newAccessToken,
+            refreshToken: newRefreshToken,
+        };
+    }
+
+    async logout(userId: string) {
+        return {
+            message: 'Logout not successfully',
+        };
+    }
 
 }

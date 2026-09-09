@@ -23,6 +23,23 @@ export class AuthController {
         return this.authService.login(
       dto.email,
       dto.password,
-    );
+      );
+    }
+
+    @Post('refresh')
+    refresh(
+        @Body('refreshToken') refreshToken: string,
+
+    ) {
+        return this.authService.refresh(
+            refreshToken,
+        );
+    }
+
+    @Post('logout') 
+    logout() {
+        return {
+            message: 'Logged out successfully',
+        }
     }
 }
