@@ -3,8 +3,6 @@ import {CanActivate, ExecutionContext, Injectable, UnauthorizedException} from '
 import { Request } from 'express';
 
 import { JwtService } from '../jwt/jwt.service';
-import { throwError } from 'rxjs';
-
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
     constructor(
