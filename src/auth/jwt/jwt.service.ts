@@ -24,23 +24,32 @@ export class JwtService {
     );
   }
 
-  generateRefreshToken(userId: string, sessionId: string,) {
-    const expiresIn = (process.env.JWT_REFRESH_EXPIRES_IN ??
-      '7d') as SignOptions['expiresIn'];
-    return jwt.sign(
-      {
-        sub: userId,
-        type: 'refresh',
-        sid: sessionId,
-      },
+  generateRefreshToken(userId: string, sessionId: string) {
+  const expiresIn =
+    (process.env.JWT_REFRESH_EXPIRES_IN ?? '7d') as SignOptions['expiresIn'];
 
-      process.env.JWT_REFRESH_SECRET!,
-      {
-        expiresIn: expiresIn,
-      },
-    );
-  }
+  console.log(
+    'JWT_REFRESH_EXPIRES_IN:',
+    JSON.stringify(process.env.JWT_REFRESH_EXPIRES_IN),
+  );
 
+  console.log(
+    'expiresIn:',
+    JSON.stringify(expiresIn),
+  );
+
+  return jwt.sign(
+    {
+      sub: userId,
+      type: 'refresh',
+      sid: sessionId,
+    },
+    process.env.JWT_REFRESH_SECRET!,
+    {
+      expiresIn,
+    },
+  );
+}
   verifyAccessToken(token: string) {
     try {
       const payload = jwt.verify(

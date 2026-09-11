@@ -10,7 +10,7 @@ createParamDecorator (
         ctx: ExecutionContext,
     ) => {
         const request =
-        ctx.switchToHttp().getResponse();
+        ctx.switchToHttp().getRequest();
 
         return request.user;
     },

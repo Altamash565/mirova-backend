@@ -248,21 +248,20 @@ export class AuthService {
   // ============================================
 
   async logout(userId: string) {
-    await this.db
-      .update(refreshSessions)
-      .set({
-        revokedAt: new Date(),
-      })
-      .where(
-        and(
-          eq(refreshSessions.userId, userId),
-        ),
-      );
+  console.log('🔥 LOGOUT SERVICE CALLED');
+  console.log('userId:', userId);
 
-    return {
-      message: 'Logout successful',
-    };
-  }
+  await this.db
+    .update(refreshSessions)
+    .set({
+      revokedAt: new Date(),
+    })
+    .where(eq(refreshSessions.userId, userId));
+
+  return {
+    message: 'Logout successful',
+  };
+} 
 
   // ============================================
   // CREATE REFRESH SESSION
