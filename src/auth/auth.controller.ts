@@ -7,40 +7,26 @@ import { CurrentUser } from './decorators/current-user.decorator';
 
 @Controller('auth')
 export class AuthController {
-    constructor(
-        private readonly authService: AuthService,
-    ) {}
+  constructor(private readonly authService: AuthService) {}
 
-    @Post('register') 
-    register(@Body() dto:RegisterDto) {
-        return this.authService.register(
-        dto.name,
-        dto.email,
-        dto.password,
-        );
-    }
+  @Post('register')
+  register(@Body() dto: RegisterDto) {
+    return this.authService.register(dto.name, dto.email, dto.password);
+  }
 
-    @Post('login')
-    login(@Body() dto: LoginDto) {
-        return this.authService.login(
-      dto.email,
-      dto.password,
-      );
-    }
+  @Post('login')
+  login(@Body() dto: LoginDto) {
+    return this.authService.login(dto.email, dto.password);
+  }
 
-    @Post('refresh')
-    refresh(
-        @Body('refreshToken') refreshToken: string,
+  @Post('refresh')
+  refresh(@Body('refreshToken') refreshToken: string) {
+    return this.authService.refresh(refreshToken);
+  }
 
-    ) {
-        return this.authService.refresh(
-            refreshToken,
-        );
-    }
-
-    @Post('logout') 
-    @UseGuards(JwtAuthGuard)
-    logout(@CurrentUser() user: {id: string }) {
-        return this.authService.logout(user.id);
-    }
+  @Post('logout')
+  @UseGuards(JwtAuthGuard)
+  logout(@CurrentUser() user: { id: string }) {
+    return this.authService.logout(user.id);
+  }
 }

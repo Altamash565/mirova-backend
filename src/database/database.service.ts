@@ -1,18 +1,18 @@
-import { Injectable } from "@nestjs/common";
-import { Pool } from "pg";
-import { drizzle } from "drizzle-orm/node-postgres";
+import { Injectable } from '@nestjs/common';
+import { Pool } from 'pg';
+import { drizzle } from 'drizzle-orm/node-postgres';
 
-@Injectable() 
+@Injectable()
 export class DatabaseService {
-    private readonly pool: Pool;
-    
-    public readonly db;
+  private readonly pool: Pool;
 
-    constructor() {
-        this.pool = new Pool ({
-            connectionString: process.env.DATABASE_URL,
-        });
+  public readonly db;
 
-        this.db = drizzle(this.pool);
-    }
+  constructor() {
+    this.pool = new Pool({
+      connectionString: process.env.DATABASE_URL,
+    });
+
+    this.db = drizzle(this.pool);
+  }
 }

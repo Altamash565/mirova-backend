@@ -25,49 +25,37 @@ export class JwtService {
   }
 
   generateRefreshToken(userId: string, sessionId: string) {
-  const expiresIn =
-    (process.env.JWT_REFRESH_EXPIRES_IN ?? '7d') as SignOptions['expiresIn'];
+    const expiresIn = (process.env.JWT_REFRESH_EXPIRES_IN ??
+      '7d') as SignOptions['expiresIn'];
 
-  console.log(
-    'JWT_REFRESH_EXPIRES_IN:',
-    JSON.stringify(process.env.JWT_REFRESH_EXPIRES_IN),
-  );
+    console.log(
+      'JWT_REFRESH_EXPIRES_IN:',
+      JSON.stringify(process.env.JWT_REFRESH_EXPIRES_IN),
+    );
 
-  console.log(
-    'expiresIn:',
-    JSON.stringify(expiresIn),
-  );
+    console.log('expiresIn:', JSON.stringify(expiresIn));
 
-  return jwt.sign(
-    {
-      sub: userId,
-      type: 'refresh',
-      sid: sessionId,
-    },
-    process.env.JWT_REFRESH_SECRET!,
-    {
-      expiresIn,
-    },
-  );
-}
+    return jwt.sign(
+      {
+        sub: userId,
+        type: 'refresh',
+        sid: sessionId,
+      },
+      process.env.JWT_REFRESH_SECRET!,
+      {
+        expiresIn,
+      },
+    );
+  }
   verifyAccessToken(token: string) {
     try {
-      const payload = jwt.verify(
-        token,
-        process.env.JWT_ACCESS_SECRET!,
-      );
+      const payload = jwt.verify(token, process.env.JWT_ACCESS_SECRET!);
 
-      if (
-        typeof payload !== 'object' || 
-        payload.type !== 'access'
-      ) {
-        throw new UnauthorizedException(
-          'Invalid access token',
-        );
+      if (typeof payload !== 'object' || payload.type !== 'access') {
+        throw new UnauthorizedException('Invalid access token');
       }
 
       return payload;
-
     } catch {
       throw new UnauthorizedException('Invalid or expired access token');
     }
@@ -75,28 +63,18 @@ export class JwtService {
 
   verifyRefreshToken(token: string): RefreshTokenPayload {
     try {
-      const payload = jwt.verify(
-        token,
-        process.env.JWT_REFRESH_SECRET!,
-      );
+      const payload = jwt.verify(token, process.env.JWT_REFRESH_SECRET!);
 
       if (
         typeof payload !== 'object' ||
-        payload == null || 
+        payload == null ||
         payload.type !== 'refresh'
       ) {
-        throw new UnauthorizedException(
-          'Invalid refresh token',
-        );
+        throw new UnauthorizedException('Invalid refresh token');
       }
 
-      if (
-        typeof payload.sub !== 'string' || 
-        typeof payload.sid !== 'string'
-      ) {
-        throw new UnauthorizedException(
-          'Invalid refresh token',
-        );
+      if (typeof payload.sub !== 'string' || typeof payload.sid !== 'string') {
+        throw new UnauthorizedException('Invalid refresh token');
       }
 
       return {
@@ -104,11 +82,8 @@ export class JwtService {
         type: 'refresh',
         sid: payload.sid,
       };
-      
     } catch {
-      throw new UnauthorizedException(
-        'Invalid or expired refresh token'
-      );
+      throw new UnauthorizedException('Invalid or expired refresh token');
     }
   }
 }

@@ -7,8 +7,7 @@ import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtService } from './auth/jwt/jwt.service';
-
-
+import { WorkspaceModule } from './workspace/workspace.module';
 
 @Module({
   controllers: [AppController],
@@ -17,10 +16,12 @@ import { JwtService } from './auth/jwt/jwt.service';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    
-    DatabaseModule, 
-    HealthModule, 
-    UsersModule, AuthModule
+
+    DatabaseModule,
+    HealthModule,
+    UsersModule,
+    AuthModule,
+    WorkspaceModule,
   ],
 })
 export class AppModule {}

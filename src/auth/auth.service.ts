@@ -9,10 +9,7 @@ import bcrypt from 'bcrypt';
 import { and, eq } from 'drizzle-orm';
 
 import { DATABASE } from '../database/database.constants';
-import {
-  users,
-  refreshSessions,
-} from '../database/schema';
+import { users, refreshSessions } from '../database/schema';
 
 import { JwtService } from './jwt/jwt.service';
 
@@ -29,11 +26,7 @@ export class AuthService {
   // REGISTER
   // ============================================
 
-  async register(
-    name: string,
-    email: string,
-    password: string,
-  ) {
+  async register(name: string, email: string, password: string) {
     // 1. Check whether email already exists
     const existingUser = await this.db
       .select()
@@ -41,16 +34,11 @@ export class AuthService {
       .where(eq(users.email, email));
 
     if (existingUser.length > 0) {
-      throw new BadRequestException(
-        'Email already exists',
-      );
+      throw new BadRequestException('Email already exists');
     }
 
     // 2. Hash password
-    const passwordHash = await bcrypt.hash(
-      password,
-      12,
-    );
+    const passwordHash = await bcrypt.hash(password, 12);
 
     // 3. Create user
     const [user] = await this.db
@@ -70,14 +58,10 @@ export class AuthService {
       });
 
     // 4. Generate access token
-    const accessToken =
-      this.jwtService.generateAccessToken(
-        user.id,
-      );
+    const accessToken = this.jwtService.generateAccessToken(user.id);
 
     // 5. Create refresh session
-    const refreshToken =
-      await this.createRefreshSession(user.id);
+    const refreshToken = await this.createRefreshSession(user.id);
 
     // 6. Return response
     return {
@@ -91,10 +75,7 @@ export class AuthService {
   // LOGIN
   // ============================================
 
-  async login(
-    email: string,
-    password: string,
-  ) {
+  async login(email: string, password: string) {
     // 1. Find user
     const [user] = await this.db
       .select()
@@ -102,33 +83,21 @@ export class AuthService {
       .where(eq(users.email, email));
 
     if (!user) {
-      throw new UnauthorizedException(
-        'Invalid email or password',
-      );
+      throw new UnauthorizedException('Invalid email or password');
     }
 
     // 2. Compare password
-    const isPasswordValid =
-      await bcrypt.compare(
-        password,
-        user.passwordHash,
-      );
+    const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
 
     if (!isPasswordValid) {
-      throw new UnauthorizedException(
-        'Invalid email or password',
-      );
+      throw new UnauthorizedException('Invalid email or password');
     }
 
     // 3. Generate access token
-    const accessToken =
-      this.jwtService.generateAccessToken(
-        user.id,
-      );
+    const accessToken = this.jwtService.generateAccessToken(user.id);
 
     // 4. Create refresh session
-    const refreshToken =
-      await this.createRefreshSession(user.id);
+    const refreshToken = await this.createRefreshSession(user.id);
 
     // 5. Return safe user data
     return {
@@ -152,10 +121,7 @@ export class AuthService {
 
   async refresh(refreshToken: string) {
     // 1. Verify JWT signature + type + payload
-    const payload =
-      this.jwtService.verifyRefreshToken(
-        refreshToken,
-      );
+    const payload = this.jwtService.verifyRefreshToken(refreshToken);
 
     // 2. Extract user ID and session ID
     const userId = payload.sub;
@@ -173,59 +139,41 @@ export class AuthService {
       );
 
     if (!session) {
-      throw new UnauthorizedException(
-        'Refresh session not found',
-      );
+      throw new UnauthorizedException('Refresh session not found');
     }
 
     // 4. Check whether session was revoked
     if (session.revokedAt) {
-      throw new UnauthorizedException(
-        'Refresh session has been revoked',
-      );
+      throw new UnauthorizedException('Refresh session has been revoked');
     }
 
     // 5. Check whether session has expired
-    if (
-      new Date() >= session.expiresAt
-    ) {
-      throw new UnauthorizedException(
-        'Refresh session has expired',
-      );
+    if (new Date() >= session.expiresAt) {
+      throw new UnauthorizedException('Refresh session has expired');
     }
 
     // 6. Compare supplied refresh token with hashed token stored in database
-    const isTokenValid =
-      await this.compareRefreshToken(
-        refreshToken,
-        session.tokenHash,
-      );
+    const isTokenValid = await this.compareRefreshToken(
+      refreshToken,
+      session.tokenHash,
+    );
 
     if (!isTokenValid) {
-      throw new UnauthorizedException(
-        'Invalid refresh token',
-      );
+      throw new UnauthorizedException('Invalid refresh token');
     }
 
     // 7. Generate new access token
-    const newAccessToken =
-      this.jwtService.generateAccessToken(
-        userId,
-      );
+    const newAccessToken = this.jwtService.generateAccessToken(userId);
 
     // 8. Generate new refresh token
     // using SAME session ID
-    const newRefreshToken =
-      this.jwtService.generateRefreshToken(
-        userId,
-        sessionId,
-      );
+    const newRefreshToken = this.jwtService.generateRefreshToken(
+      userId,
+      sessionId,
+    );
 
     // 9. Hash new refresh token
-    const newTokenHash =
-      await this.hashRefreshToken(
-        newRefreshToken,
-      );
+    const newTokenHash = await this.hashRefreshToken(newRefreshToken);
 
     // 10. Rotate stored refresh token
     await this.db
@@ -233,9 +181,7 @@ export class AuthService {
       .set({
         tokenHash: newTokenHash,
       })
-      .where(
-        eq(refreshSessions.id, sessionId),
-      );
+      .where(eq(refreshSessions.id, sessionId));
 
     return {
       accessToken: newAccessToken,
@@ -248,28 +194,26 @@ export class AuthService {
   // ============================================
 
   async logout(userId: string) {
-  console.log('🔥 LOGOUT SERVICE CALLED');
-  console.log('userId:', userId);
+    console.log('🔥 LOGOUT SERVICE CALLED');
+    console.log('userId:', userId);
 
-  await this.db
-    .update(refreshSessions)
-    .set({
-      revokedAt: new Date(),
-    })
-    .where(eq(refreshSessions.userId, userId));
+    await this.db
+      .update(refreshSessions)
+      .set({
+        revokedAt: new Date(),
+      })
+      .where(eq(refreshSessions.userId, userId));
 
-  return {
-    message: 'Logout successful',
-  };
-} 
+    return {
+      message: 'Logout successful',
+    };
+  }
 
   // ============================================
   // CREATE REFRESH SESSION
   // ============================================
 
-  private async createRefreshSession(
-    userId: string,
-  ) {
+  private async createRefreshSession(userId: string) {
     // Create session first
     const [session] = await this.db
       .insert(refreshSessions)
@@ -280,27 +224,20 @@ export class AuthService {
         // session.id before creating JWT
         tokenHash: 'temporary',
 
-        expiresAt: new Date(
-          Date.now() +
-            7 * 24 * 60 * 60 * 1000,
-        ),
+        expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
       })
       .returning({
         id: refreshSessions.id,
       });
 
     // Generate refresh token
-    const refreshToken =
-      this.jwtService.generateRefreshToken(
-        userId,
-        session.id,
-      );
+    const refreshToken = this.jwtService.generateRefreshToken(
+      userId,
+      session.id,
+    );
 
     // Hash refresh token
-    const tokenHash =
-      await this.hashRefreshToken(
-        refreshToken,
-      );
+    const tokenHash = await this.hashRefreshToken(refreshToken);
 
     // Store hash
     await this.db
@@ -308,12 +245,7 @@ export class AuthService {
       .set({
         tokenHash,
       })
-      .where(
-        eq(
-          refreshSessions.id,
-          session.id,
-        ),
-      );
+      .where(eq(refreshSessions.id, session.id));
 
     return refreshToken;
   }
@@ -322,26 +254,15 @@ export class AuthService {
   // HASH REFRESH TOKEN
   // ============================================
 
-  private async hashRefreshToken(
-    refreshToken: string,
-  ) {
-    return bcrypt.hash(
-      refreshToken,
-      12,
-    );
+  private async hashRefreshToken(refreshToken: string) {
+    return bcrypt.hash(refreshToken, 12);
   }
 
   // ============================================
   // COMPARE REFRESH TOKEN
   // ============================================
 
-  private async compareRefreshToken(
-    refreshToken: string,
-    tokenHash: string,
-  ) {
-    return bcrypt.compare(
-      refreshToken,
-      tokenHash,
-    );
+  private async compareRefreshToken(refreshToken: string, tokenHash: string) {
+    return bcrypt.compare(refreshToken, tokenHash);
   }
 }
