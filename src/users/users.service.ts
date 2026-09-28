@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   Inject,
   NotFoundException,
   Injectable,
@@ -16,26 +15,26 @@ export class UsersService {
     private readonly db: any,
   ) {}
 
-  async create(name: string, email: string) {
-    const existingUser = await this.db
-      .select()
-      .from(users)
-      .where(eq(users.email, email));
+  // async create(name: string, email: string) {
+  //   const existingUser = await this.db
+  //     .select()
+  //     .from(users)
+  //     .where(eq(users.email, email));
 
-    if (existingUser.length > 0) {
-      throw new BadRequestException('Email already exists');
-    }
+  //   if (existingUser.length > 0) {
+  //     throw new BadRequestException('Email already exists');
+  //   }
 
-    const [user] = await this.db
-      .insert(users)
-      .values({
-        name,
-        email,
-      })
-      .returning();
+  //   const [user] = await this.db
+  //     .insert(users)
+  //     .values({
+  //       name,
+  //       email,
+  //     })
+  //     .returning();
 
-    return user;
-  }
+  //   return user;
+  // }
 
   async findAll() {
     return this.db.select().from(users);
