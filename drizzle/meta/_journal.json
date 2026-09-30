@@ -36,6 +36,13 @@
       "when": 1790533355247,
       "tag": "0004_motionless_morlun",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1790791819728,
+      "tag": "0005_black_tusk",
+      "breakpoints": true
     }
   ]
 }

@@ -1,8 +1,4 @@
-import {
-  Inject,
-  NotFoundException,
-  Injectable,
-} from '@nestjs/common';
+import { Inject, NotFoundException, Injectable } from '@nestjs/common';
 import { eq } from 'drizzle-orm';
 
 import { DATABASE } from '../database/database.constants';

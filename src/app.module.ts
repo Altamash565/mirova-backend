@@ -8,6 +8,7 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtService } from './auth/jwt/jwt.service';
 import { WorkspaceModule } from './workspace/workspace.module';
+import { WorkspaceMembersModule } from './workspace-members/workspace-members.module';
 
 @Module({
   controllers: [AppController],
@@ -22,6 +23,7 @@ import { WorkspaceModule } from './workspace/workspace.module';
     UsersModule,
     AuthModule,
     WorkspaceModule,
+    WorkspaceMembersModule,
   ],
 })
 export class AppModule {}
