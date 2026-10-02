@@ -43,6 +43,13 @@
       "when": 1790791819728,
       "tag": "0005_black_tusk",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1790963419623,
+      "tag": "0006_nappy_sheva_callister",
+      "breakpoints": true
     }
   ]
 }
