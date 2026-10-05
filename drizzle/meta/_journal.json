@@ -50,6 +50,13 @@
       "when": 1790963419623,
       "tag": "0006_nappy_sheva_callister",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1791101423543,
+      "tag": "0007_puzzling_grandmaster",
+      "breakpoints": true
     }
   ]
 }

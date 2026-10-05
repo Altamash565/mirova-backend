@@ -10,6 +10,7 @@ import { JwtService } from './auth/jwt/jwt.service';
 import { WorkspaceModule } from './workspace/workspace.module';
 import { WorkspaceMembersModule } from './workspace-members/workspace-members.module';
 import { ProjectModule } from './project/project.module';
+import { ProjectMembersModule } from './project-members/project-members.module';
 
 @Module({
   controllers: [AppController],
@@ -26,6 +27,7 @@ import { ProjectModule } from './project/project.module';
     WorkspaceModule,
     WorkspaceMembersModule,
     ProjectModule,
+    ProjectMembersModule,
   ],
 })
 export class AppModule {}
