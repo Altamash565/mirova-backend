@@ -249,12 +249,10 @@ export class ProjectMembersService {
         ),
       );
 
-      if (!member) {
-        throw new ForbiddenException(
-            'You do not have access to this workspace',
-        );
-      }
-
-      return member;
+    if (!member) {
+      throw new ForbiddenException('You do not have access to this workspace');
     }
+
+    return member;
+  }
 }

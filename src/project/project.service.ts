@@ -35,7 +35,10 @@ export class ProjectService {
       .select()
       .from(projects)
       .where(
-        and(eq(projects.workspaceId, workspaceId), eq(projects.key, dto.key.toUpperCase())),
+        and(
+          eq(projects.workspaceId, workspaceId),
+          eq(projects.key, dto.key.toUpperCase()),
+        ),
       );
 
     if (existingProject) {

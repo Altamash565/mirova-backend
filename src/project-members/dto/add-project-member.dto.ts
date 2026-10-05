@@ -1,11 +1,10 @@
-import { IsEmail, IsOptional, IsString } from "class-validator";
+import { IsEmail, IsOptional, IsString } from 'class-validator';
 
 export class AddProjectMemberDto {
-    @IsEmail()
-    email: string;
+  @IsEmail()
+  email: string;
 
-
-    @IsOptional()
-    @IsString()
-    role?: string;
+  @IsOptional()
+  @IsString()
+  role?: string;
 }
