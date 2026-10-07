@@ -11,6 +11,7 @@ import { WorkspaceModule } from './workspace/workspace.module';
 import { WorkspaceMembersModule } from './workspace-members/workspace-members.module';
 import { ProjectModule } from './project/project.module';
 import { ProjectMembersModule } from './project-members/project-members.module';
+import { BoardModule } from './board/board.module';
 
 @Module({
   controllers: [AppController],
@@ -28,6 +29,7 @@ import { ProjectMembersModule } from './project-members/project-members.module';
     WorkspaceMembersModule,
     ProjectModule,
     ProjectMembersModule,
+    BoardModule,
   ],
 })
 export class AppModule {}
