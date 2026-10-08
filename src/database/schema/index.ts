@@ -5,3 +5,4 @@ export * from './workspace-members.schema';
 export * from './projects.schema';
 export * from './project-members.schema';
 export * from './boards.schema';
+export * from './columns.schema';
