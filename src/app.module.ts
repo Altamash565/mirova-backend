@@ -12,6 +12,7 @@ import { WorkspaceMembersModule } from './workspace-members/workspace-members.mo
 import { ProjectModule } from './project/project.module';
 import { ProjectMembersModule } from './project-members/project-members.module';
 import { BoardModule } from './board/board.module';
+import { ColumnModule } from './column/column.module';
 
 @Module({
   controllers: [AppController],
@@ -30,6 +31,7 @@ import { BoardModule } from './board/board.module';
     ProjectModule,
     ProjectMembersModule,
     BoardModule,
+    ColumnModule,
   ],
 })
 export class AppModule {}
