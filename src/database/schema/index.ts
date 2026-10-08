@@ -6,3 +6,4 @@ export * from './projects.schema';
 export * from './project-members.schema';
 export * from './boards.schema';
 export * from './columns.schema';
+export * from './tasks.schema';
