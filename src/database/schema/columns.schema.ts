@@ -8,7 +8,6 @@ import {
 } from 'drizzle-orm/pg-core';
 
 import { boards } from './boards.schema';
-import { idText } from 'typescript';
 
 export const columns = pgTable('columns', {
   id: uuid('id').defaultRandom().primaryKey(),
