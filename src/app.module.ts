@@ -14,6 +14,7 @@ import { ProjectMembersModule } from './project-members/project-members.module';
 import { BoardModule } from './board/board.module';
 import { ColumnModule } from './column/column.module';
 import { TaskModule } from './task/task.module';
+import { TaskCommentsModule } from './task-comments/task-comments.module';
 
 @Module({
   controllers: [AppController],
@@ -34,6 +35,7 @@ import { TaskModule } from './task/task.module';
     BoardModule,
     ColumnModule,
     TaskModule,
+    TaskCommentsModule,
   ],
 })
 export class AppModule {}

@@ -78,6 +78,13 @@
       "when": 1791625099798,
       "tag": "0010_slimy_flatman",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1791747043377,
+      "tag": "0011_odd_pestilence",
+      "breakpoints": true
     }
   ]
 }
