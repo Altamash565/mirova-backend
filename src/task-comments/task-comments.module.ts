@@ -7,6 +7,6 @@ import { AuthModule } from '../auth/auth.module';
 @Module({
   imports: [DatabaseModule, AuthModule],
   controllers: [TaskCommentsController],
-  providers: [TaskCommentsService]
+  providers: [TaskCommentsService],
 })
 export class TaskCommentsModule {}
