@@ -8,5 +8,3 @@ export * from './boards.schema';
 export * from './columns.schema';
 export * from './tasks.schema';
 export * from './task-comments.schema';
-export * from './labels.schema';
-export * from './task-labels.schema';

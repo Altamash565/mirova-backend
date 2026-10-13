@@ -85,13 +85,6 @@
       "when": 1791747043377,
       "tag": "0011_odd_pestilence",
       "breakpoints": true
-    },
-    {
-      "idx": 12,
-      "version": "7",
-      "when": 1791914855280,
-      "tag": "0012_absurd_gravity",
-      "breakpoints": true
     }
   ]
 }
