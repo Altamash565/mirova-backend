@@ -15,6 +15,7 @@ import { BoardModule } from './board/board.module';
 import { ColumnModule } from './column/column.module';
 import { TaskModule } from './task/task.module';
 import { TaskCommentsModule } from './task-comments/task-comments.module';
+import { LabelsModule } from './labels/labels.module';
 
 @Module({
   controllers: [AppController],
@@ -36,6 +37,7 @@ import { TaskCommentsModule } from './task-comments/task-comments.module';
     ColumnModule,
     TaskModule,
     TaskCommentsModule,
+    LabelsModule,
   ],
 })
 export class AppModule {}
